@@ -1,6 +1,6 @@
 {
   "name": "@brewery/nodemailer-handlebars",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Nodemailer for Craft Cloud Code projects",
   "main": "index.js",
   "scripts": {
@@ -15,9 +15,6 @@
   "devDependencies": {
     "dotenv": "^10.0.0"
   },
-  "directories": {
-    "example": "example"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rcdelacruz/brewery-nodemailer-handlebars.git"
@@ -25,9 +22,5 @@
   "keywords": [
     "nodemailer",
     "brewery"
-  ],
-  "bugs": {
-    "url": "https://github.com/rcdelacruz/brewery-nodemailer-handlebars/issues"
-  },
-  "homepage": "https://github.com/rcdelacruz/brewery-nodemailer-handlebars#readme"
+  ]
 }
