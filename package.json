@@ -1,6 +1,6 @@
 {
   "name": "@brewery/nodemailer-handlebars",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "Nodemailer for Craft Cloud Code projects",
   "main": "index.js",
   "scripts": {

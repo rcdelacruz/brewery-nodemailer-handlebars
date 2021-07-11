@@ -7,7 +7,6 @@ const log = console.log;
 
 const sendMail = (mailOptions, engineOptions, SMTPCredentials) => {
   let credentials = {};
-  log(process.env);
   if (SMTPCredentials === undefined) {
     credentials = {
       port: process.env.SMTP_PORT,
@@ -31,33 +30,44 @@ const sendMail = (mailOptions, engineOptions, SMTPCredentials) => {
       debug: SMTPCredentials.is_debug,
     };
   }
-  let transporter = nodemailer.createTransport(credentials);
 
-  transporter.use(
-    "compile",
-    hbs({
-      viewEngine: {
+  return new Promise((resolve, reject) => {
+    let transporter = nodemailer.createTransport(credentials);
+
+    transporter.use(
+      "compile",
+      hbs({
+        viewEngine: {
+          extName: ".hbs" || engineOptions.extName,
+          partialsDir:
+            path.resolve(__dirname, "./templates") ||
+            engineOptions.templatePath,
+          layoutsDir:
+            path.resolve(__dirname, "./templates") ||
+            engineOptions.templatePath,
+          defaultLayout: "",
+        },
+        viewPath:
+          path.resolve(__dirname, "./templates") || engineOptions.templatePath,
         extName: ".hbs" || engineOptions.extName,
-        partialsDir:
-          path.resolve(__dirname, "./templates") || engineOptions.templatePath,
-        layoutsDir:
-          path.resolve(__dirname, "./templates") || engineOptions.templatePath,
-        defaultLayout: "",
-      },
-      viewPath:
-        path.resolve(__dirname, "./templates") || engineOptions.templatePath,
-      extName: ".hbs" || engineOptions.extName,
-    })
-  );
+      })
+    );
 
-  transporter.sendMail(mailOptions, (err) => {
-    if (err) {
-      return log({
-        "nodemailer-error": err,
-        message: "Error occurs",
-      });
-    }
-    return log({ "nodemailer-success": "Email sent!" });
+    transporter.sendMail(mailOptions, (err) => {
+      if (err) {
+        log({
+          "nodemailer-error": err,
+          message: "Error occurs",
+        });
+        resolve({
+          status: 400,
+          message: "Error occurs. See logs for more details.",
+        });
+      } else {
+        log({ "nodemailer-success": "Email sent!" });
+        resolve({ status: 200, message: "email sent." });
+      }
+    });
   });
 };
 
